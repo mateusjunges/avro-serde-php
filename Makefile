@@ -72,14 +72,14 @@ install-phars:
 	chmod a+x bin/phpstan.phar
 
 platform:
-	docker-compose down
-	docker-compose up -d
+	docker compose down
+	docker compose up -d
 	bin/wait-for-all.sh
 
 clean:
 	rm -rf build
-	docker-compose down
+	docker compose down
 
 benchmark: platform
 	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) ./vendor/bin/phpbench run benchmarks/AvroEncodingBench.php --report=aggregate --retry-threshold=5
-	docker-compose down
+	docker compose down
