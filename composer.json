@@ -1,5 +1,5 @@
 {
-  "name": "flix-tech/avro-serde-php",
+  "name": "mateusjunges/avro-serde-php",
   "description": "A library to serialize and deserialize Avro records making use of the confluent schema registry",
   "keywords": [
     "confluent-platform",
@@ -20,13 +20,17 @@
     {
       "name": "Thomas Ploch",
       "email": "thomas.ploch@flixbus.com"
+    },
+    {
+      "name": "Mateus Junges",
+      "email": "mateus@junges.dev"
     }
   ],
   "require": {
     "php": "^7.3|^8.0",
     "beberlei/assert": "^2.9.9|~3.0",
-    "flix-tech/confluent-schema-registry-api": "^8.0",
-    "guzzlehttp/promises": "^1.4.0",
+    "mateusjunges/confluent-schema-registry-api": "^9.0",
+    "guzzlehttp/promises": "^2.0",
     "flix-tech/avro-php": "^5.0",
     "widmogrod/php-functional": "^6.0"
   },
