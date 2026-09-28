@@ -30,7 +30,7 @@
     "php": "^8.0",
     "beberlei/assert": "^2.9.9|~3.0",
     "mateusjunges/confluent-schema-registry-api": "^9.0",
-    "guzzlehttp/promises": "^2.0",
+    "guzzlehttp/promises": "^2.0|^3.0",
     "flix-tech/avro-php": "^5.0",
     "widmogrod/php-functional": "^6.0"
   },
