@@ -28,8 +28,8 @@ class AvroNameConverter implements AdvancedNameConverterInterface
      */
     public function normalize(
         string $propertyName,
-        string $class = null,
-        string $format = null,
+        ?string $class = null,
+        ?string $format = null,
         array $context = []
     ): string {
         return $this
@@ -102,8 +102,8 @@ class AvroNameConverter implements AdvancedNameConverterInterface
      */
     public function denormalize(
         string $propertyName,
-        string $class = null,
-        string $format = null,
+        ?string $class = null,
+        ?string $format = null,
         array $context = []
     ): string {
         return $this
