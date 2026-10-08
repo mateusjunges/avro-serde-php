@@ -1,7 +1,7 @@
-# no buildin rules and variables
+# no builtin rules and variables
 MAKEFLAGS =+ -rR --warn-undefined-variables
 
-.PHONY: composer-install composer-update phpstan cs-fixer examples docker run
+.PHONY: composer-install composer-update composer-update-lowest phpstan cs-fixer examples docker run
 
 CONFLUENT_VERSION ?= latest
 CONFLUENT_NETWORK_SUBNET ?= 172.68.0.0/24
@@ -10,15 +10,15 @@ SCHEMA_REGISTRY_IPV4 ?= 172.68.0.103
 KAFKA_BROKER_IPV4 ?= 172.68.0.102
 ZOOKEEPER_IPV4 ?= 172.68.0.101
 COMPOSER ?= bin/composer.phar
-COMPOSER_VERSION ?= 2.3.10
+COMPOSER_VERSION ?= 2.8.4
 PHP_STAN ?= bin/phpstan.phar
-PHP_STAN_VERSION ?= 1.8.2
+PHP_STAN_VERSION ?= 2.0.4
 PHP_CS_FIXER ?= bin/php-cs-fixer.phar
-PHP_CS_FIXER_VERSION ?= 3.9.5
+PHP_CS_FIXER_VERSION ?= 3.65.0
 PHPUNIT ?= vendor/bin/phpunit
 PHP ?= bin/php
-PHP_VERSION ?= 8.1
-XDEBUG_VERSION ?= 3.1.5
+PHP_VERSION ?= 8.3
+XDEBUG_VERSION ?= 3.4.0
 XDEBUG_OPTIONS ?= -d xdebug.mode=off
 export
 
@@ -36,8 +36,11 @@ composer-install:
 composer-update:
 	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) $(COMPOSER) update --prefer-stable --no-interaction --no-progress --no-scripts
 
+composer-update-lowest:
+	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) $(COMPOSER) update --prefer-lowest --no-interaction --no-progress --no-scripts
+
 phpstan:
-	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) $(PHP_STAN) analyse
+	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) $(PHP_STAN) analyse --memory-limit 4G
 
 cs-fixer:
 	PHP_VERSION=$(PHP_VERSION) $(PHP) $(XDEBUG_OPTIONS) $(PHP_CS_FIXER) fix --config=.php-cs-fixer.dist.php --diff -v --dry-run \

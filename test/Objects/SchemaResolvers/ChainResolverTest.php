@@ -4,42 +4,33 @@ namespace FlixTech\AvroSerializer\Test\Objects\SchemaResolvers;
 
 use FlixTech\AvroSerializer\Objects\SchemaResolverInterface;
 use FlixTech\AvroSerializer\Objects\SchemaResolvers\ChainResolver;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ChainResolverTest extends TestCase
 {
-    /**
-     * @var MockObject|SchemaResolverInterface
-     */
-    private $chainOne;
+    private SchemaResolverInterface|MockObject $chainOne;
 
-    /**
-     * @var MockObject|SchemaResolverInterface
-     */
-    private $chainTwo;
+    private SchemaResolverInterface|MockObject $chainTwo;
 
-    /**
-     * @var ChainResolver
-     */
-    private $chain;
+    private ChainResolver $chain;
 
     /**
      * @throws \ReflectionException
      */
     protected function setUp(): void
     {
-        $this->chainOne = $this->getMockForAbstractClass(SchemaResolverInterface::class);
-        $this->chainTwo = $this->getMockForAbstractClass(SchemaResolverInterface::class);
+        $this->chainOne = $this->getMockBuilder(SchemaResolverInterface::class)->getMock();
+        $this->chainTwo = $this->getMockBuilder(SchemaResolverInterface::class)->getMock();
 
         $this->chain = new ChainResolver($this->chainOne, $this->chainTwo);
     }
 
     /**
-     * @test
-     *
      * @throws \AvroSchemaParseException
      */
+    #[Test]
     public function it_will_exit_early_when_a_schema_has_been_resolved(): void
     {
         $record = 'I am a record';
@@ -59,10 +50,9 @@ class ChainResolverTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @throws \AvroSchemaParseException
      */
+    #[Test]
     public function it_will_exit_early_when_a_key_schema_has_been_resolved(): void
     {
         $record = 'I am a record';
@@ -82,10 +72,9 @@ class ChainResolverTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @throws \AvroSchemaParseException
      */
+    #[Test]
     public function it_will_call_all_resolvers(): void
     {
         $record = 'I am a record';
@@ -107,10 +96,9 @@ class ChainResolverTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @throws \AvroSchemaParseException
      */
+    #[Test]
     public function it_will_call_all_resolvers_for_key_schemas(): void
     {
         $record = 'I am a record';
@@ -131,9 +119,7 @@ class ChainResolverTest extends TestCase
         $this->assertEquals($avroSchema, $actual);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_call_all_resolvers_and_throw_for_value_when_no_resolver_has_a_result(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -153,9 +139,7 @@ class ChainResolverTest extends TestCase
         $this->chain->valueSchemaFor($record);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_call_all_resolvers_and_return_null_when_no_key_resolver_has_a_result(): void
     {
         $record = 'I am a record';

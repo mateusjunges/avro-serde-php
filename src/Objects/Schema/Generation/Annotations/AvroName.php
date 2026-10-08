@@ -13,30 +13,18 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributes;
  */
 class AvroName implements SchemaAttribute
 {
-    /**
-     * @var string
-     */
-    public $value;
+    public string $value;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes();

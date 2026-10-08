@@ -4,13 +4,12 @@ namespace FlixTech\AvroSerializer\Test\Objects\Schema;
 
 use FlixTech\AvroSerializer\Objects\Schema;
 use FlixTech\AvroSerializer\Objects\Schema\Record\FieldOption;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RecordTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_serialize_record_types(): void
     {
         $serializedRecord = Schema::record()
@@ -54,9 +53,7 @@ class RecordTypeTest extends TestCase
         $this->assertEquals($expectedRecord, $serializedRecord);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_parse_record_types(): void
     {
         $parsedSchema = Schema::record()
@@ -69,7 +66,6 @@ class RecordTypeTest extends TestCase
             ->field('ignore', Schema::boolean(), FieldOption::orderIgnore())
             ->parse();
 
-        $this->assertInstanceOf(\AvroSchema::class, $parsedSchema);
         $this->assertEquals('record', $parsedSchema->type());
     }
 }

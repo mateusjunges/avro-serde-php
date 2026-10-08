@@ -13,15 +13,12 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributes;
  */
 final class AvroType implements SchemaAttribute
 {
-    /**
-     * @var string
-     */
-    public $value;
+    public string $value;
 
     /**
      * @var array<\FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttribute>
      */
-    public $attributes = [];
+    public array $attributes = [];
 
     public static function create(string $typeName, SchemaAttribute ...$attributes): self
     {
@@ -33,25 +30,16 @@ final class AvroType implements SchemaAttribute
         return $avroType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes(...$this->attributes);

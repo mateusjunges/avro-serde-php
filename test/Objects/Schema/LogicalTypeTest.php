@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace FlixTech\AvroSerializer\Test\Objects\Schema;
 
 use FlixTech\AvroSerializer\Objects\Schema;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class LogicalTypeTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider provideLogicalTypes()
-     */
-    public function it_should_serialize_simple_logical_types(Schema $type, string $expectedAnnotatedType, string $expectedLogicalType)
+    #[Test]
+    #[DataProvider('provideLogicalTypes')]
+    public function it_should_serialize_simple_logical_types(Schema $type, string $expectedAnnotatedType, string $expectedLogicalType): void
     {
         $expectedSchema = [
             'type' => $expectedAnnotatedType,
@@ -23,21 +23,17 @@ class LogicalTypeTest extends TestCase
         $this->assertEquals($expectedSchema, $type->serialize());
     }
 
-    /**
-     * @test
-     * @dataProvider provideLogicalTypes()
-     */
-    public function it_should_parse_simple_logical_types(Schema $type, string $expectedType, string $expectedLogicalType)
+    #[Test]
+    #[DataProvider('provideLogicalTypes')]
+    public function it_should_parse_simple_logical_types(Schema $type, string $expectedType, string $expectedLogicalType): void
     {
         $parsedSchema = $type->parse();
         $this->assertEquals($expectedType, $parsedSchema->type());
         $this->assertEquals($expectedLogicalType, $parsedSchema->logical_type());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_serialize_duration_types()
+    #[Test]
+    public function it_should_serialize_duration_types(): void
     {
         $schema = Schema::duration()
             ->name('User')
@@ -57,10 +53,8 @@ class LogicalTypeTest extends TestCase
         $this->assertEquals($expected, $schema);
     }
 
-    /**
-     * @test
-     */
-    public function it_should_parse_duration_types()
+    #[Test]
+    public function it_should_parse_duration_types(): void
     {
         $parsedSchema = Schema::duration()
             ->name('User')
@@ -72,7 +66,7 @@ class LogicalTypeTest extends TestCase
         $this->assertEquals('duration', $parsedSchema->logical_type());
     }
 
-    public function provideLogicalTypes(): array
+    public static function provideLogicalTypes(): array
     {
         return [
             'uuid' => [Schema::uuid(), 'string', 'uuid'],

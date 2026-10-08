@@ -13,7 +13,7 @@ final class TypeMapper
     /**
      * @var array<string, callable>
      */
-    private $mappers;
+    private array $mappers;
 
     public function __construct(SchemaGenerator $generator)
     {

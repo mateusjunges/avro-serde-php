@@ -8,7 +8,9 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
 
 /**
  * @SerDe\AvroName("EmptyRecord")
+ *
  * @SerDe\AvroNamespace("org.acme")
+ *
  * @SerDe\AvroType("record")
  */
 class EmptyRecord

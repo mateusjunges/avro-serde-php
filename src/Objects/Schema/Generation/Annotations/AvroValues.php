@@ -14,9 +14,6 @@ final class AvroValues implements TypeOnlyAttribute
 {
     use ContainsOnlyTypes;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::VALUES;

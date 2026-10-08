@@ -6,15 +6,9 @@ namespace FlixTech\AvroSerializer\Objects\Schema\Generation;
 
 class Type
 {
-    /**
-     * @var string
-     */
-    private $typeName;
+    private string $typeName;
 
-    /**
-     * @var SchemaAttributes
-     */
-    private $attributes;
+    private SchemaAttributes $attributes;
 
     public function __construct(string $typeName, ?SchemaAttributes $attributes = null)
     {

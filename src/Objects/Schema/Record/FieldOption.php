@@ -6,19 +6,10 @@ namespace FlixTech\AvroSerializer\Objects\Schema\Record;
 
 abstract class FieldOption
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var mixed
-     */
-    private $value;
+    private string $name;
+    private mixed $value;
 
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $name, $value)
+    public function __construct(string $name, mixed $value)
     {
         $this->name = $name;
         $this->value = $value;
@@ -29,10 +20,7 @@ abstract class FieldOption
         return new FieldDoc($doc);
     }
 
-    /**
-     * @param mixed $default
-     */
-    public static function default($default): FieldDefault
+    public static function default(mixed $default): FieldDefault
     {
         return new FieldDefault($default);
     }
@@ -62,10 +50,7 @@ abstract class FieldOption
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

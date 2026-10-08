@@ -8,10 +8,7 @@ use FlixTech\AvroSerializer\Objects\Schema;
 
 class NamedType extends Schema
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {

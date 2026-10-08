@@ -5,28 +5,24 @@ declare(strict_types=1);
 namespace FlixTech\AvroSerializer\Test\Objects\Schema\Generation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use FlixTech\AvroSerializer\Objects\Schema;
+use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaGenerator;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\ArraysWithComplexType;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\EmptyRecord;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\MapsWithComplexType;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\PrimitiveTypes;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\RecordWithComplexTypes;
 use FlixTech\AvroSerializer\Test\Objects\Schema\Generation\Fixture\RecordWithRecordType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SchemaGeneratorTest extends TestCase
 {
-    /**
-     * @var Schema\Generation\SchemaGenerator
-     */
-    private $generator;
+    private SchemaGenerator $generator;
 
     protected function setUp(): void
     {
-        AnnotationRegistry::registerLoader('class_exists');
-
-        $this->generator = new Schema\Generation\SchemaGenerator(
+        $this->generator = new SchemaGenerator(
             new Schema\Generation\AnnotationReader(
                 new AnnotationReader()
             )
@@ -34,9 +30,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_an_empty_record()
+    #[Test]
+    public function it_should_generate_an_empty_record(): void
     {
         $schema = $this->generator->generate(EmptyRecord::class);
 
@@ -48,9 +45,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_a_record_schema_with_primitive_types()
+    #[Test]
+    public function it_should_generate_a_record_schema_with_primitive_types(): void
     {
         $schema = $this->generator->generate(PrimitiveTypes::class);
 
@@ -98,9 +96,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_a_schema_record_with_complex_types()
+    #[Test]
+    public function it_should_generate_a_schema_record_with_complex_types(): void
     {
         $schema = $this->generator->generate(RecordWithComplexTypes::class);
 
@@ -142,9 +141,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_records_containing_records()
+    #[Test]
+    public function it_should_generate_records_containing_records(): void
     {
         $schema = $this->generator->generate(RecordWithRecordType::class);
 
@@ -174,9 +174,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_a_record_schema_with_arrays_containing_complex_types()
+    #[Test]
+    public function it_should_generate_a_record_schema_with_arrays_containing_complex_types(): void
     {
         $schema = $this->generator->generate(ArraysWithComplexType::class);
 
@@ -204,9 +205,10 @@ class SchemaGeneratorTest extends TestCase
     }
 
     /**
-     * @test
+     * @throws \ReflectionException
      */
-    public function it_should_generate_a_record_schema_with_maps_containing_complex_types()
+    #[Test]
+    public function it_should_generate_a_record_schema_with_maps_containing_complex_types(): void
     {
         $schema = $this->generator->generate(MapsWithComplexType::class);
 

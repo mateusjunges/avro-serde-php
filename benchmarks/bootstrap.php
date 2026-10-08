@@ -2,4 +2,5 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new \Dotenv\Dotenv(__DIR__ . '/..'))->load();
+$dotenv = Dotenv\Dotenv::createUnsafeMutable(paths: __DIR__ . DIRECTORY_SEPARATOR . '..', names: '.env.dist');
+$dotenv->load();

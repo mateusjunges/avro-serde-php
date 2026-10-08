@@ -13,30 +13,18 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributes;
  */
 final class AvroSize implements SchemaAttribute
 {
-    /**
-     * @var int
-     */
-    public $value;
+    public int $value;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::SIZE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function value(): int
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes();

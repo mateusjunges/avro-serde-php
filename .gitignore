@@ -12,7 +12,6 @@ composer.lock
 
 # Custom entries
 .php_cs*.cache
-.env
 variables.mk
 build/
 ocular.phar

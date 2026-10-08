@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FlixTech\AvroSerializer\Objects;
 
-use AvroSchema;
 use FlixTech\SchemaRegistryApi\Exception\SchemaNotFoundException;
 use FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException;
 use FlixTech\SchemaRegistryApi\Exception\SubjectNotFoundException;
 use FlixTech\SchemaRegistryApi\Registry;
 use GuzzleHttp\Promise\PromiseInterface;
+use Widmogrod\Monad\Either\Either;
 
 use const FlixTech\AvroSerializer\Common\get;
 use const FlixTech\AvroSerializer\Protocol\PROTOCOL_ACCESSOR_AVRO;
@@ -32,10 +32,7 @@ class RecordSerializer
     public const OPTION_REGISTER_MISSING_SCHEMAS = 'register_missing_schemas';
     public const OPTION_REGISTER_MISSING_SUBJECTS = 'register_missing_subjects';
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
     /**
      * @var callable
@@ -62,15 +59,9 @@ class RecordSerializer
      */
     protected $avroBinaryGetter;
 
-    /**
-     * @var bool
-     */
-    protected $registerMissingSchemas;
+    protected bool $registerMissingSchemas;
 
-    /**
-     * @var bool
-     */
-    protected $registerNonExistingSubjects;
+    protected bool $registerNonExistingSubjects;
 
     /**
      * @var callable
@@ -100,21 +91,17 @@ class RecordSerializer
         $this->avroBinaryGetter = $get(PROTOCOL_ACCESSOR_AVRO);
 
         $this->registerMissingSchemas = isset($options[self::OPTION_REGISTER_MISSING_SCHEMAS])
-            ? (bool) $options[self::OPTION_REGISTER_MISSING_SCHEMAS]
-            : false;
+            && $options[self::OPTION_REGISTER_MISSING_SCHEMAS];
 
         $this->registerNonExistingSubjects = isset($options[self::OPTION_REGISTER_MISSING_SUBJECTS])
-            ? (bool) $options[self::OPTION_REGISTER_MISSING_SUBJECTS]
-            : false;
+            && $options[self::OPTION_REGISTER_MISSING_SUBJECTS];
     }
 
     /**
-     * @param mixed $record
-     *
      * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws SchemaRegistryException
      */
-    public function encodeRecord(string $subject, AvroSchema $schema, $record): string
+    public function encodeRecord(string $subject, \AvroSchema $schema, mixed $record): string
     {
         $schemaId = $this->getSchemaIdForSchema($subject, $schema);
         $cachedWriter = memoize($this->datumWriterFactoryFunc, [$schema], 'writer_' . $schemaId);
@@ -125,16 +112,15 @@ class RecordSerializer
     }
 
     /**
-     * @return mixed
-     *
      * @throws \InvalidArgumentException
      * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws SchemaRegistryException
      */
-    public function decodeMessage(string $binaryMessage, ?AvroSchema $readersSchema = null)
+    public function decodeMessage(string $binaryMessage, ?\AvroSchema $readersSchema = null): mixed
     {
         $decoded = decode($binaryMessage);
         $schemaId = valueOf($decoded->bind($this->schemaIdGetter));
+        /** @var \AvroSchema $writersSchema */
         $writersSchema = $this->extractValueFromRegistryResponse($this->registry->schemaForId($schemaId));
         $readersSchema = $readersSchema ?? $writersSchema;
         $cachedReader = memoize($this->datumReaderFactoryFunc, [$writersSchema], 'reader_' . $schemaId);
@@ -142,7 +128,7 @@ class RecordSerializer
         /** @var \Widmogrod\Monad\Maybe\Maybe $validated */
         $validated = $decoded->bind($this->protocolValidatorFunc);
 
-        /** @var \Widmogrod\Monad\Either\Either $read */
+        /** @var Either $read */
         $read = $validated
             ->orElse(static function () { throw new \InvalidArgumentException('Could not validate message wire protocol.'); })
             ->bind($this->avroBinaryGetter)
@@ -153,9 +139,9 @@ class RecordSerializer
 
     /**
      * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws SchemaRegistryException
      */
-    private function getSchemaIdForSchema(string $subject, AvroSchema $schema): int
+    private function getSchemaIdForSchema(string $subject, \AvroSchema $schema): int
     {
         try {
             $schemaId = $this->extractValueFromRegistryResponse($this->registry->schemaId($subject, $schema));
@@ -171,11 +157,9 @@ class RecordSerializer
     /**
      * @param PromiseInterface|\Exception|\Psr\Http\Message\ResponseInterface $response
      *
-     * @return mixed
-     *
      * @throws \Exception
      */
-    private function extractValueFromRegistryResponse($response)
+    private function extractValueFromRegistryResponse(mixed $response): mixed
     {
         if ($response instanceof PromiseInterface) {
             $response = $response->wait();
@@ -189,7 +173,7 @@ class RecordSerializer
     }
 
     /**
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws SchemaRegistryException
      */
     private function handleSubjectOrSchemaNotFound(SchemaRegistryException $e): void
     {
@@ -209,7 +193,7 @@ class RecordSerializer
             default:
                 // @codeCoverageIgnoreStart
                 throw $e;
-            // @codeCoverageIgnoreEnd
+                // @codeCoverageIgnoreEnd
         }
     }
 }

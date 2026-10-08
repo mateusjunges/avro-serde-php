@@ -6,10 +6,7 @@ namespace FlixTech\AvroSerializer\Objects\Schema\Record;
 
 class FieldDefault extends FieldOption
 {
-    /**
-     * @param mixed $default
-     */
-    public function __construct($default)
+    public function __construct(mixed $default)
     {
         parent::__construct('default', $default);
     }

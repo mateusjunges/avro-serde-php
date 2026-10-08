@@ -5,25 +5,17 @@ declare(strict_types=1);
 namespace FlixTech\AvroSerializer\Objects\Schema\Generation;
 
 use Doctrine\Common\Annotations\Reader as DoctrineAnnotationReader;
-use ReflectionClass;
-use ReflectionProperty;
 
 class AnnotationReader implements SchemaAttributeReader
 {
-    /**
-     * @var DoctrineAnnotationReader
-     */
-    private $reader;
+    private DoctrineAnnotationReader $reader;
 
     public function __construct(DoctrineAnnotationReader $reader)
     {
         $this->reader = $reader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function readClassAttributes(ReflectionClass $class): SchemaAttributes
+    public function readClassAttributes(\ReflectionClass $class): SchemaAttributes
     {
         /** @var SchemaAttribute[] $annotations */
         $annotations = $this->reader->getClassAnnotations($class);
@@ -32,7 +24,7 @@ class AnnotationReader implements SchemaAttributeReader
         return new SchemaAttributes(...$attributes);
     }
 
-    public function readPropertyAttributes(ReflectionProperty $property): SchemaAttributes
+    public function readPropertyAttributes(\ReflectionProperty $property): SchemaAttributes
     {
         /** @var SchemaAttribute[] $annotations */
         $annotations = $this->reader->getPropertyAnnotations($property);

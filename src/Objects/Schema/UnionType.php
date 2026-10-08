@@ -11,7 +11,7 @@ class UnionType extends Schema
     /**
      * @var array<Schema>
      */
-    private $types;
+    private array $types;
 
     public function __construct(Schema $type, Schema ...$types)
     {

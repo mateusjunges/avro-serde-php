@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace FlixTech\AvroSerializer\Test\Objects\Schema;
 
 use FlixTech\AvroSerializer\Objects\Schema;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class FixedTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_serialize_fixed_types(): void
     {
         $serializedFixedType = Schema::fixed()
@@ -32,9 +31,7 @@ class FixedTypeTest extends TestCase
         $this->assertEquals($expectedFixedType, $serializedFixedType);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_parse_fixed_types(): void
     {
         $parsedSchema = Schema::fixed()
@@ -44,7 +41,6 @@ class FixedTypeTest extends TestCase
             ->aliases('hash', 'fileHash')
             ->parse();
 
-        $this->assertInstanceOf(\AvroSchema::class, $parsedSchema);
         $this->assertEquals('fixed', $parsedSchema->type());
     }
 }

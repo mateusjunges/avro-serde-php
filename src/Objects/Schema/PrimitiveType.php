@@ -8,10 +8,7 @@ use FlixTech\AvroSerializer\Objects\Schema;
 
 abstract class PrimitiveType extends Schema
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     public function __construct(string $type)
     {

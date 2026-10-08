@@ -8,10 +8,7 @@ interface SchemaAttribute
 {
     public function name(): string;
 
-    /**
-     * @return mixed
-     */
-    public function value();
+    public function value(): mixed;
 
     public function attributes(): SchemaAttributes;
 }

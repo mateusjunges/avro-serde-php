@@ -11,7 +11,7 @@ use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$dotEnv = new Dotenv(__DIR__ . '/..');
+$dotEnv = Dotenv::createUnsafeMutable(paths: __DIR__ . DIRECTORY_SEPARATOR . '..');
 $dotEnv->load();
 $dotEnv->required('SCHEMA_REGISTRY_HOST')->notEmpty();
 

@@ -6,8 +6,5 @@ namespace FlixTech\AvroSerializer\Objects;
 
 interface Definition
 {
-    /**
-     * @return mixed
-     */
-    public function serialize();
+    public function serialize(): mixed;
 }

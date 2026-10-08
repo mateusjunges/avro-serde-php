@@ -17,10 +17,7 @@ class AvroSerDeEncoder implements EncoderInterface, DecoderInterface
     public const CONTEXT_ENCODE_SUBJECT = self::FORMAT_AVRO . '.subject';
     public const CONTEXT_DECODE_READERS_SCHEMA = self::FORMAT_AVRO . '.readers_schema';
 
-    /**
-     * @var \FlixTech\AvroSerializer\Objects\RecordSerializer
-     */
-    private $recordSerializer;
+    private RecordSerializer $recordSerializer;
 
     public function __construct(RecordSerializer $recordSerializer)
     {
@@ -32,7 +29,7 @@ class AvroSerDeEncoder implements EncoderInterface, DecoderInterface
      *
      * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
      */
-    public function decode($data, $format, array $context = [])
+    public function decode(string $data, string $format, array $context = []): mixed
     {
         $readersSchema = $context[self::CONTEXT_DECODE_READERS_SCHEMA] ?? null;
         Assert::that($readersSchema)->nullOr()->isInstanceOf(\AvroSchema::class);

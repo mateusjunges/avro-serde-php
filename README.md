@@ -1,4 +1,4 @@
-# Avro SerDe for PHP 7.3+ and 8.0
+# Avro SerDe for PHP 8.1+
 
 [![php-confluent-serde Actions Status](https://github.com/flix-tech/avro-serde-php/workflows/php-confluent-serde/badge.svg?branch=master)](https://github.com/flix-tech/avro-serde-php/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7500470a6812cf5a1ad5/maintainability)](https://codeclimate.com/github/flix-tech/avro-serde-php/maintainability)
@@ -13,7 +13,7 @@ When serializing and deserializing messages using the [Avro](http://avro.apache.
 especially when integrating with the [Confluent Platform](https://docs.confluent.io/current/avro.html), you want to make
 sure that schemas are evolved in a way that downstream consumers are not affected.
 
-Hence [Confluent](https://www.confluent.io/) developed the
+Hence, [Confluent](https://www.confluent.io/) developed the
 [Schema Registry](https://docs.confluent.io/current/schema-registry/docs/index.html) which has the responsibility to
 validate a given schema evolution against a configurable compatibility policy.
 
@@ -27,7 +27,7 @@ integrates FlixTech's [Schema Registry Client](https://github.com/flix-tech/sche
 This library is using the [composer package manager](https://getcomposer.org/) for PHP.
 
 ```bash
-composer require 'flix-tech/avro-serde-php:^1.6'
+composer require 'flix-tech/avro-serde-php:^2.2'
 ```
 
 ## Quickstart
@@ -273,7 +273,7 @@ $resolver->keySchemaFor($record); // Will resolve $fileResolver, then $callableR
 
 ## Symfony Serializer Integration
 
-This library provides integrations with the [Symfony Serializer component](https://symfony.com/doc/master/components/serializer.html).
+This library provides integrations with the [Symfony Serializer component](https://symfony.com/doc/master/components/serializer.html) from version 6.4 and above.
 
 ```php
 <?php

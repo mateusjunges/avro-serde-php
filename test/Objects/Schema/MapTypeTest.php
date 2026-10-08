@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace FlixTech\AvroSerializer\Test\Objects\Schema;
 
 use FlixTech\AvroSerializer\Objects\Schema;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MapTypeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_serialize_map_types(): void
     {
         $serializedMap = Schema::map()
@@ -30,9 +29,7 @@ class MapTypeTest extends TestCase
         $this->assertEquals($expectedMap, $serializedMap);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_parse_map_types(): void
     {
         $parsedSchema = Schema::map()
@@ -40,7 +37,6 @@ class MapTypeTest extends TestCase
             ->default(['answer' => 42])
             ->parse();
 
-        $this->assertInstanceOf(\AvroSchema::class, $parsedSchema);
         $this->assertEquals('map', $parsedSchema->type());
     }
 }

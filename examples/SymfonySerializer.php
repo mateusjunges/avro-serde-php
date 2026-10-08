@@ -15,17 +15,17 @@ use function Widmogrod\Functional\constt;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$dotEnv = new Dotenv(__DIR__ . '/..');
+$dotEnv = Dotenv::createUnsafeMutable(paths: __DIR__ . DIRECTORY_SEPARATOR . '..');
 $dotEnv->load();
 $dotEnv->required('SCHEMA_REGISTRY_HOST')->notEmpty();
 
 class User
 {
     /** @var string */
-    private $name;
+    private string $name;
 
     /** @var int */
-    private $age;
+    private int $age;
 
     public function __construct(string $name, int $age)
     {

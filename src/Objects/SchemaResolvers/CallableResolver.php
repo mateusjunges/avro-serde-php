@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FlixTech\AvroSerializer\Objects\SchemaResolvers;
 
-use AvroSchema;
 use FlixTech\AvroSerializer\Objects\SchemaResolverInterface;
 
 class CallableResolver implements SchemaResolverInterface
@@ -26,26 +25,22 @@ class CallableResolver implements SchemaResolverInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \AvroSchemaParseException
      */
-    public function valueSchemaFor($record): AvroSchema
+    public function valueSchemaFor(mixed $record): \AvroSchema
     {
-        return AvroSchema::parse(\call_user_func($this->valueSchemaResolverCallable, $record));
+        return \AvroSchema::parse(\call_user_func($this->valueSchemaResolverCallable, $record));
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \AvroSchemaParseException
      */
-    public function keySchemaFor($record): ?AvroSchema
+    public function keySchemaFor(mixed $record): ?\AvroSchema
     {
         if (!$this->keySchemaResolverCallable) {
             return null;
         }
 
-        return AvroSchema::parse(\call_user_func($this->keySchemaResolverCallable, $record));
+        return \AvroSchema::parse(\call_user_func($this->keySchemaResolverCallable, $record));
     }
 }

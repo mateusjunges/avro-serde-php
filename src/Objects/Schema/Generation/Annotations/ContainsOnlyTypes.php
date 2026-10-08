@@ -12,11 +12,9 @@ trait ContainsOnlyTypes
     /**
      * @phpstan-var string|AvroType|array<string|AvroType>
      */
-    public $value;
+    public string|array|AvroType $value;
 
     /**
-     * {@inheritdoc}
-     *
      * @return array<SchemaAttribute>
      */
     public function value(): array
@@ -28,9 +26,6 @@ trait ContainsOnlyTypes
         return \array_map([$this, 'valueToType'], $this->value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes(...$this->value());

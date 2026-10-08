@@ -13,30 +13,18 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributes;
  */
 final class AvroDefault implements SchemaAttribute
 {
-    /**
-     * @var mixed
-     */
-    public $value;
+    public mixed $value;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::DEFAULT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function value()
+    public function value(): mixed
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes();

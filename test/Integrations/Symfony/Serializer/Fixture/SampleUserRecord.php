@@ -8,12 +8,14 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
 
 /**
  * @SerDe\AvroType("record")
+ *
  * @SerDe\AvroName("SampleUserRecord")
  */
 class SampleUserRecord
 {
     /**
      * @SerDe\AvroName("Name")
+     *
      * @SerDe\AvroType("string")
      */
     private $name;

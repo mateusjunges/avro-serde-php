@@ -9,25 +9,19 @@ use FlixTech\AvroSerializer\Objects\Schema;
 
 class Field implements Definition
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var Schema
-     */
-    private $type;
+    private Schema $type;
 
     /**
      * @var array<FieldOption>
      */
-    private $options;
+    private array $options;
 
     public function __construct(
         string $name,
         Schema $type,
-        FieldOption ...$options
+        FieldOption ...$options,
     ) {
         $this->name = $name;
         $this->type = $type;

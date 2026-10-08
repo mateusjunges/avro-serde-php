@@ -8,14 +8,17 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
 
 /**
  * @SerDe\AvroType("record")
+ *
  * @SerDe\AvroName("MapsWithComplexType")
  */
 class MapsWithComplexType
 {
     /**
      * @SerDe\AvroType("map", attributes={
+     *
      *     @SerDe\AvroValues({
      *         "string",
+     *
      *         @SerDe\AvroType("array", attributes={@SerDe\AvroItems("string")})
      *     })
      * })
@@ -24,7 +27,9 @@ class MapsWithComplexType
 
     /**
      * @SerDe\AvroType("map", attributes={
+     *
      *     @SerDe\AvroValues(
+     *
      *         @SerDe\AvroType("array", attributes={@SerDe\AvroItems("string")})
      *     )
      * })

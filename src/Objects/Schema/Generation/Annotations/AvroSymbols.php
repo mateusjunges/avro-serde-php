@@ -16,19 +16,14 @@ final class AvroSymbols implements VariadicAttribute
     /**
      * @var array<string>
      */
-    public $value;
+    public array $value;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::SYMBOLS;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return array<string>
      */
     public function value(): array
@@ -36,9 +31,6 @@ final class AvroSymbols implements VariadicAttribute
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributes(): SchemaAttributes
     {
         return new SchemaAttributes();

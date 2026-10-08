@@ -12,12 +12,9 @@ abstract class ComplexType extends Schema
     /**
      * @var array<string, mixed>
      */
-    private $attributes;
+    private array $attributes;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     /**
      * @param array<string, mixed> $attributes
@@ -29,7 +26,7 @@ abstract class ComplexType extends Schema
     }
 
     /**
-     * @return array<mixed>
+     * @return array<int|string,mixed>
      */
     public function serialize(): array
     {
@@ -51,11 +48,9 @@ abstract class ComplexType extends Schema
     }
 
     /**
-     * @param mixed $value
-     *
      * @return static
      */
-    protected function attribute(string $name, $value): self
+    protected function attribute(string $name, mixed $value): self
     {
         $schema = clone $this;
         $schema->attributes[$name] = $value;

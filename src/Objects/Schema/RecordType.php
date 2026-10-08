@@ -13,7 +13,7 @@ class RecordType extends ComplexType
     /**
      * @var array<Field>
      */
-    private $fields = [];
+    private array $fields = [];
 
     public function __construct()
     {

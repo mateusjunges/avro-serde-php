@@ -14,9 +14,6 @@ final class AvroItems implements TypeOnlyAttribute
 {
     use ContainsOnlyTypes;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return AttributeName::ITEMS;

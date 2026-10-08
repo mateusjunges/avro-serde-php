@@ -4,37 +4,30 @@ declare(strict_types=1);
 
 namespace FlixTech\AvroSerializer\Integrations\Symfony\Serializer\NameConverter;
 
-use Exception;
 use FlixTech\AvroSerializer\Integrations\Symfony\Serializer\AvroSerDeEncoder;
 use FlixTech\AvroSerializer\Objects\Schema\AttributeName;
 use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributeReader;
-use ReflectionClass;
-use ReflectionProperty;
 use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
-
-if (!\interface_exists(AdvancedNameConverterInterface::class)) {
-    throw new Exception("The advanced name converter is supported only in symfony 4 and forward");
-}
 
 class AvroNameConverter implements AdvancedNameConverterInterface
 {
-    /**
-     * @var SchemaAttributeReader
-     */
-    private $attributeReader;
+    private SchemaAttributeReader $attributeReader;
 
     /**
      * @var array<string, PropertyNameMap>
      */
-    private $mapCache = [];
+    private array $mapCache = [];
 
     public function __construct(SchemaAttributeReader $attributeReader)
     {
         $this->attributeReader = $attributeReader;
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function normalize(
-        $propertyName,
+        string $propertyName,
         string $class = null,
         string $format = null,
         array $context = []
@@ -44,26 +37,32 @@ class AvroNameConverter implements AdvancedNameConverterInterface
             ->getNormalized($propertyName);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     private function getNameMap(?string $class, ?string $format): PropertyNameMap
     {
         if (null === $class || !class_exists($class)) {
             return new PropertyNameMap();
         }
 
-        if (null === $format || AvroSerDeEncoder::FORMAT_AVRO !== $format) {
+        if (AvroSerDeEncoder::FORMAT_AVRO !== $format) {
             return new PropertyNameMap();
         }
 
         return $this->generateMap($class);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     private function generateMap(string $class): PropertyNameMap
     {
         if (isset($this->mapCache[$class])) {
             return $this->mapCache[$class];
         }
 
-        $reflectionClass = new ReflectionClass($class);
+        $reflectionClass = new \ReflectionClass($class);
 
         $map = array_reduce(
             $reflectionClass->getProperties(),
@@ -78,7 +77,7 @@ class AvroNameConverter implements AdvancedNameConverterInterface
 
     private function propertyToSchemaName(
         PropertyNameMap $map,
-        ReflectionProperty $reflectionProperty
+        \ReflectionProperty $reflectionProperty
     ): PropertyNameMap {
         $schemaAttributes = $this->attributeReader->readPropertyAttributes($reflectionProperty);
 
@@ -98,8 +97,11 @@ class AvroNameConverter implements AdvancedNameConverterInterface
         );
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function denormalize(
-        $propertyName,
+        string $propertyName,
         string $class = null,
         string $format = null,
         array $context = []

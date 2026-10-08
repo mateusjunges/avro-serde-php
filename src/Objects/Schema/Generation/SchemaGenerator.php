@@ -8,20 +8,12 @@ use FlixTech\AvroSerializer\Objects\Schema;
 use FlixTech\AvroSerializer\Objects\Schema\AttributeName;
 use FlixTech\AvroSerializer\Objects\Schema\Record\FieldOrder;
 use FlixTech\AvroSerializer\Objects\Schema\TypeName;
-use ReflectionClass;
-use ReflectionProperty;
 
 class SchemaGenerator
 {
-    /**
-     * @var SchemaAttributeReader
-     */
-    private $reader;
+    private SchemaAttributeReader $reader;
 
-    /**
-     * @var TypeMapper
-     */
-    private $typeMapper;
+    private TypeMapper $typeMapper;
 
     public function __construct(SchemaAttributeReader $reader)
     {
@@ -31,19 +23,21 @@ class SchemaGenerator
 
     /**
      * @param class-string<object> $className
+     *
+     * @throws \ReflectionException
      */
     public function generate(string $className): Schema
     {
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
         $attributes = $this->reader->readClassAttributes($class);
 
         return $this->generateFromClass($class, new Type(TypeName::RECORD, $attributes));
     }
 
     /**
-     * @param ReflectionClass<object> $class
+     * @param \ReflectionClass<object> $class
      */
-    private function generateFromClass(ReflectionClass $class, Type $type): Schema
+    private function generateFromClass(\ReflectionClass $class, Type $type): Schema
     {
         $schema = $this->schemaFromType($type);
 
@@ -78,7 +72,7 @@ class SchemaGenerator
         );
     }
 
-    private function parseField(ReflectionProperty $property, Schema\RecordType $rootSchema): Schema
+    private function parseField(\ReflectionProperty $property, Schema\RecordType $rootSchema): Schema
     {
         $attributes = $this->reader->readPropertyAttributes($property);
 

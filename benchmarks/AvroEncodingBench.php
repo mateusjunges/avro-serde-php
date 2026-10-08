@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace FlixTech\AvroSerializer\Benchmarks;
 
+use AvroIOException;
+use AvroSchema;
+use AvroSchemaParseException;
+use Exception;
 use FlixTech\AvroSerializer\Objects\RecordSerializer;
 use FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException;
 use FlixTech\SchemaRegistryApi\Registry;
@@ -17,9 +21,7 @@ use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
 use PhpBench\Benchmark\Metadata\Annotations\Iterations;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
-/**
- * @BeforeMethods({"setUp"})
- */
+#[\PhpBench\Attributes\BeforeMethods('setUp')]
 class AvroEncodingBench
 {
     public const ASYNC = 'async';
@@ -52,27 +54,28 @@ class AvroEncodingBench
 JSON;
 
     /**
-     * @var \FlixTech\AvroSerializer\Objects\RecordSerializer[]
+     * @var RecordSerializer[]
      */
-    private $serializers = [];
+    private array $serializers = [];
 
     /**
      * @var string[]
      */
-    private $messages = [];
+    private array $messages = [];
 
     /**
-     * @var \AvroSchema
+     * @var AvroSchema
      */
-    private $schema;
+    private AvroSchema $schema;
 
     /**
-     * @throws \AvroSchemaParseException
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws AvroSchemaParseException
+     * @throws SchemaRegistryException
+     * @throws AvroIOException
      */
     public function setUp(): void
     {
-        $this->schema = \AvroSchema::parse(self::SCHEMA_JSON);
+        $this->schema = AvroSchema::parse(self::SCHEMA_JSON);
 
         $this->prepareTestForMode(self::ASYNC, new PromisingRegistry(
             new Client(['base_uri' => getenv('SCHEMA_REGISTRY_HOST')])
@@ -102,72 +105,66 @@ JSON;
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchEncodeWithSyncRegistry(): void
     {
         $this->serializers[self::SYNC]->encodeRecord('test', $this->schema, self::TEST_RECORD);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchDecodeWithSyncRegistry(): void
     {
         $this->serializers[self::SYNC]->decodeMessage($this->messages[self::SYNC]);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchEncodeWithAsyncRegistry(): void
     {
         $this->serializers[self::ASYNC]->encodeRecord('test', $this->schema, self::TEST_RECORD);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchDecodeWithAsyncRegistry(): void
     {
         $this->serializers[self::ASYNC]->decodeMessage($this->messages[self::ASYNC]);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchEncodeWithAsyncCachedRegistry(): void
     {
         $this->serializers[self::ASYNC_CACHED]->encodeRecord('test', $this->schema, self::TEST_RECORD);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchDecodeWithAsyncCachedRegistry(): void
     {
         $this->serializers[self::ASYNC_CACHED]->decodeMessage($this->messages[self::ASYNC_CACHED]);
@@ -175,24 +172,22 @@ JSON;
 
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchEncodeWithSyncCachedRegistry(): void
     {
         $this->serializers[self::SYNC_CACHED]->encodeRecord('test', $this->schema, self::TEST_RECORD);
     }
 
     /**
-     * @Revs(1000)
-     * @Iterations(5)
-     *
-     * @throws \Exception
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws Exception
+     * @throws SchemaRegistryException
      */
+    #[\PhpBench\Attributes\Revs(1000)]
+    #[\PhpBench\Attributes\Iterations(5)]
     public function benchDecodeWithSyncCachedRegistry(): void
     {
         $this->serializers[self::SYNC_CACHED]->decodeMessage($this->messages[self::SYNC_CACHED]);
@@ -200,9 +195,9 @@ JSON;
 
     /**
      * @param string                               $mode
-     * @param \FlixTech\SchemaRegistryApi\Registry $registry
+     * @param Registry $registry
      *
-     * @throws \FlixTech\SchemaRegistryApi\Exception\SchemaRegistryException
+     * @throws SchemaRegistryException|AvroIOException
      */
     private function prepareTestForMode(string $mode, Registry $registry): void
     {
@@ -217,8 +212,7 @@ JSON;
                 $this->schema,
                 self::TEST_RECORD
             );
-        } catch (\Exception $e) {
-        } catch (SchemaRegistryException $e) {
+        } catch (Exception|SchemaRegistryException $e) {
         }
     }
 }

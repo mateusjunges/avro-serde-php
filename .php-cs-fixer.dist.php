@@ -23,7 +23,8 @@ return (new PhpCsFixer\Config())
         'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'all', 'strict' => false],
         'ordered_class_elements' => true,
         'php_unit_method_casing' => false,
+        'fully_qualified_strict_types' => false,
     ])
     ->setFinder($finder)
-    ->setCacheFile('.php_cs.' . (string) getenv('PHP_VERSION') . '.cache')
+    ->setCacheFile('.php_cs.' . getenv('PHP_VERSION') . '.cache')
     ->setUsingCache(true);

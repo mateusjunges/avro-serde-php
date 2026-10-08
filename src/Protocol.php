@@ -30,9 +30,14 @@ const encode = '\FlixTech\AvroSerializer\Protocol\encode';
 
 function encode(int $protocolVersion, int $schemaId, string $avroEncodedBinaryString): Either
 {
-    /** @var bool|string $packed */
+    /**
+     * @var bool|string $packed
+     *
+     * @phpstan-ignore varTag.nativeType
+     */
     $packed = @\pack('CNa*', $protocolVersion, $schemaId, $avroEncodedBinaryString);
 
+    /** @phpstan-ignore return.type */
     return false !== $packed
         ? Right::of($packed)
         // @codeCoverageIgnoreStart
@@ -65,12 +70,13 @@ function decode(string $binaryString): Either
         PROTOCOL_ACCESSOR_AVRO
     );
 
-    /** @var array<mixed,mixed>|bool $unpacked */
+    /** @var array<string|int,mixed>|false $unpacked */
     $unpacked = @\unpack(
         $packedFormat,
         $binaryString
     );
 
+    /** @phpstan-ignore return.type */
     return false !== $unpacked
         ? Right::of($unpacked)
         : Left::of(

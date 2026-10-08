@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FlixTech\AvroSerializer\Test;
 
-use AvroSchema;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractFunctionalTestCase extends TestCase
@@ -54,27 +53,27 @@ JSON;
     public const INVALID_BIN_WRONG_VERSION = '44686f6d617348';
 
     /**
-     * @var AvroSchema
+     * @var \AvroSchema
      */
-    protected $avroSchema;
+    protected \AvroSchema|\AvroFixedSchema|\AvroMapSchema|\AvroArraySchema|\AvroEnumSchema|\AvroPrimitiveSchema|\AvroRecordSchema|\AvroUnionSchema $avroSchema;
 
     /**
-     * @var AvroSchema
+     * @var \AvroSchema
      */
-    protected $readersSchema;
+    protected \AvroSchema|\AvroFixedSchema|\AvroMapSchema|\AvroArraySchema|\AvroEnumSchema|\AvroPrimitiveSchema|\AvroUnionSchema|\AvroRecordSchema $readersSchema;
 
     /**
-     * @var AvroSchema
+     * @var \AvroSchema
      */
-    protected $invalidSchema;
+    protected \AvroSchema|\AvroFixedSchema|\AvroMapSchema|\AvroArraySchema|\AvroEnumSchema|\AvroPrimitiveSchema|\AvroUnionSchema|\AvroRecordSchema $invalidSchema;
 
     /**
      * @throws \AvroSchemaParseException
      */
     protected function setUp(): void
     {
-        $this->avroSchema = AvroSchema::parse(self::SCHEMA_JSON);
-        $this->readersSchema = AvroSchema::parse(self::READERS_SCHEMA_JSON);
-        $this->invalidSchema = AvroSchema::parse(self::INVALID_READERS_SCHEMA_JSON);
+        $this->avroSchema = \AvroSchema::parse(self::SCHEMA_JSON);
+        $this->readersSchema = \AvroSchema::parse(self::READERS_SCHEMA_JSON);
+        $this->invalidSchema = \AvroSchema::parse(self::INVALID_READERS_SCHEMA_JSON);
     }
 }

@@ -13,10 +13,7 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\SchemaAttributes;
  */
 final class AvroTargetClass implements SchemaAttribute
 {
-    /**
-     * @var string
-     */
-    public $value;
+    public string $value;
 
     public function name(): string
     {

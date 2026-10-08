@@ -15,7 +15,7 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$dotEnv = new Dotenv(__DIR__ . '/..');
+$dotEnv = Dotenv::createUnsafeMutable(paths: __DIR__ . DIRECTORY_SEPARATOR . '..');
 $dotEnv->load();
 $dotEnv->required('SCHEMA_REGISTRY_HOST')->notEmpty();
 
@@ -29,19 +29,19 @@ class WriterUser
      * @SerDe\AvroType("string")
      * @var string
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @SerDe\AvroType("string")
      * @var string
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @SerDe\AvroType("int")
      * @var int
      */
-    private $age;
+    private int $age;
 
     public function __construct(string $firstName, string $lastName, int $age)
     {
@@ -76,13 +76,13 @@ class ReaderUser
      * @SerDe\AvroType("string")
      * @var string
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @SerDe\AvroType("int")
      * @var int
      */
-    private $age;
+    private int $age;
 
     public function __construct(string $firstName, int $age)
     {

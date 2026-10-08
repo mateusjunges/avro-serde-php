@@ -11,12 +11,12 @@ class SchemaAttributes implements \Countable
     /**
      * @var array<string, array<SchemaAttribute>>
      */
-    private $attributes = [];
+    private array $attributes = [];
 
     /**
      * @var array<SchemaAttribute>
      */
-    private $optionAttributes = [];
+    private array $optionAttributes = [];
 
     public function __construct(SchemaAttribute ...$attributes)
     {
@@ -30,7 +30,7 @@ class SchemaAttributes implements \Countable
      */
     public function types(): array
     {
-        return \array_map(function (SchemaAttribute $schemaAttribute) {
+        return \array_map(static function (SchemaAttribute $schemaAttribute) {
             return new Type(
                 $schemaAttribute->value(),
                 $schemaAttribute->attributes()
@@ -51,17 +51,11 @@ class SchemaAttributes implements \Countable
         return isset($this->attributes[$name]);
     }
 
-    /**
-     * @return mixed
-     */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         return $this->attributes[$name][0]->value();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(): int
     {
         return \count($this->attributes);

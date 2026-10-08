@@ -8,20 +8,25 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
 
 /**
  * @SerDe\AvroName("PrimitiveTypes")
+ *
  * @SerDe\AvroNamespace("org.acme")
+ *
  * @SerDe\AvroType("record")
  */
 class PrimitiveTypes
 {
     /**
      * @SerDe\AvroDoc("null type")
+     *
      * @SerDe\AvroType("null")
      */
     private $nullType;
 
     /**
      * @SerDe\AvroName("isItTrue")
+     *
      * @SerDe\AvroDefault(false)
+     *
      * @SerDe\AvroType("boolean")
      */
     private $booleanType;
@@ -33,12 +38,14 @@ class PrimitiveTypes
 
     /**
      * @SerDe\AvroType("long")
+     *
      * @SerDe\AvroOrder("ascending")
      */
     private $longType;
 
     /**
      * @SerDe\AvroType("float")
+     *
      * @SerDe\AvroAliases({"foo", "bar"})
      */
     private $floatType;
